@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 
-function Search({ search }) {
+type SearchProps = {
+  onSearch: (searchValue: string) => void;
+};
+
+function Search({ onSearch }: SearchProps) {
   const [searchValue, setSearchValue] = useState('');
 
-  const handleSearchInputChanges = (e) => {
+  const handleSearchInputChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
 
@@ -11,9 +15,11 @@ function Search({ search }) {
     setSearchValue('');
   };
 
-  const callSearchFunction = (e) => {
+  const callSearchFunction = (
+    e: React.MouseEvent<HTMLInputElement, MouseEvent>
+  ) => {
     e.preventDefault();
-    search(searchValue);
+    onSearch(searchValue);
     resetInputField();
   };
 

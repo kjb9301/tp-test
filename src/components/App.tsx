@@ -1,4 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
+
+import { movieReducer, movieState } from '../store/modules/movie/reducer';
+
 import '../App.css';
 import Header from './Header';
 import Movie from './Movie';
@@ -6,39 +9,8 @@ import Search from './Search';
 
 const MOVIE_API_URL = 'https://www.omdbapi.com/?s=man&apikey=4a3b711b';
 
-const initialState = {
-  loading: true,
-  movies: [],
-  errorMessage: null,
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'SEARCH_MOVIES_REQUEST':
-      return {
-        ...state,
-        loading: true,
-        errorMessage: null,
-      };
-    case 'SEARCH_MOVIES_SUCCESS':
-      return {
-        ...state,
-        loading: false,
-        movies: action.payload,
-      };
-    case 'SEARCH_MOVIES_FAILURE':
-      return {
-        ...state,
-        loading: false,
-        errorMessage: action.error,
-      };
-    default:
-      return state;
-  }
-};
-
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(movieReducer, movieState);
 
   useEffect(() => {
     fetch(MOVIE_API_URL)
@@ -51,7 +23,7 @@ function App() {
       });
   }, []);
 
-  const search = (searchValue) => {
+  const onSearch = (searchValue: string) => {
     dispatch({
       type: 'SEARCH_MOVIES_REQUEST',
     });
@@ -74,11 +46,11 @@ function App() {
   };
 
   const { movies, errorMessage, loading } = state;
-
+  console.log(movies);
   return (
     <div className='App'>
       <Header text='HOOKED' />
-      <Search search={search} />
+      <Search onSearch={onSearch} />
       <p className='App-intro'>Sharing a few of our favourite movies</p>
       <div className='movies'>
         {loading && !errorMessage ? (

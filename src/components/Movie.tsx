@@ -1,9 +1,15 @@
 import React from 'react';
 
+import { MovieItem } from '../store/modules/movie/types';
+
+type MovieProps = {
+  movie: MovieItem;
+};
+
 const DEFAULT_PLACEHOLDER_IMAGE =
   'https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg';
 
-function Movie({ movie }) {
+function Movie({ movie }: MovieProps) {
   const poster =
     movie.Poster === 'N/A' ? DEFAULT_PLACEHOLDER_IMAGE : movie.Poster;
   return (
